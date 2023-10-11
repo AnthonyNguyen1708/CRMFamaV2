@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/CRMFamaV2.props" />
+</Project>

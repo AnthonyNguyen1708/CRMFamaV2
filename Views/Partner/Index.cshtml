@@ -1,0 +1,115 @@
+﻿@model List<PartnerModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $('body').on('click', '.btnDelete', function () {
+            let dataName = $(this).data('name');
+            let dateId = $(this).data('id');
+
+
+            $(".confirmDelete").attr("id", dateId)
+            $("#partnerName").text(dataName);
+        })
+
+
+        $('.confirmDelete').on("click", function () {
+            const partnerId = $(this).attr("id");
+            console.log(partnerId)
+
+             $.ajax({
+                 url: "/Partner/Delete/" + partnerId,
+                type: "POST",
+                success: function (data) {
+                    console.log(data)
+                    location.reload();
+
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            })
+        })
+
+        
+    </script>
+}
+
+
+<div class="section_partner">
+    <h2 class="my-3">Quản lý đối tác</h2>
+
+    <div class="mb-3 d-flex justify-content-between align-items-center">
+        <div class="">
+            <h5>Danh Sách Đối Tác</h5>
+        </div>
+        <div class="">
+            <a asp-controller="Partner" asp-action="CreatePartner" class="btn btn-info rounded">
+                <i class="bi bi-plus-circle"></i> Thêm
+            </a>
+        </div>
+    </div>
+    <table class="table table-bordered border-primary table-hover">
+        <thead>
+            <tr class="table-dark">
+                <th scope="col">Đối tác</th>
+                <th scope="col">Điện thoại</th>
+                <th scope="col">Chiết khấu</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr class="table">
+                    <td scope="row">@obj.PartnerName</td>
+                    <td scope="row"> @obj.PartnerPhone</td>
+                    <td scope="row"> @obj.PartnerDiscount</td>
+                    <td scope="row">
+                        @if (@obj.PartnerStatus == true)
+                        {
+                            <span class="p-2 rounded bg-info text-white">Active</span>
+                        }
+                        else
+                        {
+                            <span class="p-2 rounded bg-danger text-white">Inactive</span>
+                        }
+                    </td>
+                    <td class="d-flex" scope="row">
+                        <button data-id="@obj.Id" data-name="@obj.PartnerName" data-bs-toggle="modal" data-bs-target="#confirmRemoveModal" class="btnDelete btn btn-danger">
+                            
+                            Xoá
+                        </button>
+                        <a asp-route-id="@obj.Id" asp-action="EditPartner" asp-controller="Partner" class="btn btn-info">
+                            Sửa
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div id="confirmRemoveModal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác nhận xóa dữ liệu?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn chắc chắn muốn xóa đối tác <span id="partnerName"></span> </p>
+            </div>
+            <div class="modal-footer">
+                <button id="" type="button" class="confirmDelete btn btn-danger">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

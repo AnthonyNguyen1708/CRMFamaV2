@@ -1,0 +1,57 @@
+﻿@model PartnerModel
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea#tiny',
+            resize: 'both'
+            
+        });
+    </script>
+}
+
+<h2 class="my-3">Quản lý đối tác</h2>
+
+<div>
+    <form method="post">
+        <div class="form_header">
+            Thông Tin Đối Tác
+        </div>
+        <div class="w-50">
+            <div class="form-group">
+                <label asp-for="PartnerName">Đối tác</label>
+                <input asp-for="PartnerName" class="d-block w-100 mb-3" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PartnerAddress">Địa chỉ</label>
+                <input asp-for="PartnerAddress" class="d-block w-100 mb-3" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PartnerPhone">Điện thoại</label>
+                <input asp-for="PartnerPhone" class="d-block w-100 mb-3" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PartnerEmail">Email</label>
+                <input asp-for="PartnerEmail" class="d-block w-100 mb-3" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PartnerDiscount">Chiết khấu cố định (%)</label>
+                <input asp-for="PartnerDiscount" class="d-block w-100 mb-3" />
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" asp-for="PartnerStatus" type="checkbox" id="flexCheckChecked">
+                <label class="form-check-label mb-3 " for="flexCheckChecked">
+                    Checked checkbox
+                </label>
+            </div>
+            <div class="form-group">
+                <textarea class="mb-3" asp-for="PartnerDescription" id="tiny"></textarea>
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary" style="width: 150px">Create</button>
+                <a asp-controller="Partner" asp-action="Index" class="btn btn-info" style="width: 150px">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+
